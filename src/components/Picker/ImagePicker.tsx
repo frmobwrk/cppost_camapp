@@ -54,12 +54,12 @@ const ImagePicker: FunctionComponent<Props> = ({
   const flickerAnim = useRef(new Animated.Value(1)).current;
   const hasNextPage = useRef<boolean>(true);
   const albumParams = useRef<CameraRoll.GetAlbumsParams>({
-    assetType: "Photos"
+    assetType: "All"
   })
   const params = useRef<CameraRoll.GetPhotosParams>({
     first: 8,
     include: ["filename", "fileSize", "imageSize", "playableDuration"],
-    assetType: "Photos",
+    assetType: "All",
     groupTypes: "All",
   });
 
@@ -290,6 +290,7 @@ const ImagePicker: FunctionComponent<Props> = ({
             autoFocus={false}
             style={styles.inputTxt}
             placeholder="Text Here"
+            placeholderTextColor="gray" 
             onChangeText={onChangeDescription}
             value={description}
           />

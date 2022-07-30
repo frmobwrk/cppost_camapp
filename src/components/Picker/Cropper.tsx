@@ -1,5 +1,8 @@
 import { Platform } from "react-native";
-import RNVideoHelper from "react-native-video-helper";
+import { FFmpegKit, ReturnCode, FFmpegKitConfig } from 'ffmpeg-kit-react-native';
+import RNFS from 'react-native-fs';
+
+// import RNVideoHelper from "react-native-video-helper";
 import ImageEditor from "@react-native-community/image-editor";
 import CameraRoll from "@react-native-community/cameraroll";
 import { SCREEN_WIDTH } from "../../constants/dimensions";
@@ -51,6 +54,7 @@ export const VidoUri = (video: PhotoFileInfo) => {
   }
   return videoUri;
 };
+
 
 const getPercentFromNumber = (percent: number, numberFrom: number) => {
   return (numberFrom / 100) * percent;
@@ -175,20 +179,60 @@ export const HandleCrop = async (param: Props) => {
         const videoUri = VidoUri(image);
         if (image.playableDuration) {
           try {
-            let vr = await RNVideoHelper.compress(videoUri, {
-              startTime: 0,
-              endTime: endTime ?? Math.round(image.playableDuration),
-              quality: quality ? quality : "medium",
-              defaultOrientation: 0,
-            });
-            if (Platform.OS === "android" && !vr.includes("file:///")) {
-              vr = `file://${vr}`;
+            let crop_levels = {
+              low : 18,
+              medium: 23,
+              high: 28
+            }
+            let str_for_ffmpeg_command = "";
+            if(quality){
+              str_for_ffmpeg_command = '-crf ' + crop_levels[ quality ];
+            }else{
+              str_for_ffmpeg_command = '-crf ' +  crop_levels[ 'medium' ];
+            }
+            if( endTime )
+            {
+              let hhmmss = new Date(endTime * 1000).toISOString().slice(11, 19);
+
+              str_for_ffmpeg_command += ' -to ' + hhmmss;
+
+            }
+            let rndm_name = parseInt(Math.random()*10000000);
+            let newSource =  `${RNFS.ExternalDirectoryPath}/video.zscaled_new${rndm_name}.mp4`;
+            let fullcommand = `-i ${videoUri}  -c:v libx264 -preset ultrafast  ${str_for_ffmpeg_command} -c:a copy  ${newSource}`;
+            const session = await FFmpegKit.execute(fullcommand).then(
+              (result) => {
+                return result;
+              },
+            );
+            const state = FFmpegKitConfig.sessionStateToString(await session.getState());
+            const returnCode = await session.getReturnCode();
+            const failStackTrace = await session.getFailStackTrace();
+            console.log(`FFmpeg process exited with state ${state}`);
+
+            if (ReturnCode.isSuccess(returnCode)) {
+              console.log( "zscale completed successfully.");
+              if (Platform.OS === "android" && !newSource.includes("file:///")) {
+                newSource = `file://${newSource}`;
+              }
+              const extension = image?.filename?.split(".").pop()?.toLocaleLowerCase();
+              result.push({
+                type: "video",
+                fullSize: false,
+                uri: newSource,
+                extension: extension as string,
+                width: SCREEN_WIDTH,
+                height: SCREEN_WIDTH,
+                sortIndex: idx,
+              });
+            } else {
+              console.log( "zscale failed. Please check logs for the details.");
             }
             const extension = image?.filename?.split(".").pop()?.toLocaleLowerCase();
             result.push({
               type: "video",
               fullSize: false,
-              uri: vr,
+              uri: newSource,
               extension: extension as string,
               width: SCREEN_WIDTH,
               height: SCREEN_WIDTH,

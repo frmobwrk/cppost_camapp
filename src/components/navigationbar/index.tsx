@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         borderBottomColor: colors.lightGrey,
         borderBottomWidth: 0.25,
-        paddingHorizontal: 7
+        paddingHorizontal: 7,
     },
     backButton: {
         flex: 1,
@@ -71,11 +71,12 @@ const styles = StyleSheet.create({
     },
     titleTxt: {
         fontSize: 16,
-        fontWeight: '600'
+        fontWeight: '600',
     },
     optionTxt: {
         fontSize: 16,
         fontWeight: '600',
+        color:"#000"
     },
     optionContainer: {
         flex: 1,
