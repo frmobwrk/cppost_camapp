@@ -13,6 +13,8 @@ import {
   SafeAreaView,
   StatusBar,
   StyleSheet,
+  Text,
+  View,
 } from 'react-native';
 import Loading from './src/components/Loading';
 import NavigationBar from './src/components/navigationbar';
@@ -91,6 +93,17 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: STATUS_BAR_HEIGHT,
     backgroundColor: 'white'
+  },
+  warningCnr:{
+    flex:1,
+    alignItems:'center',
+    justifyContent:'center'
+  },
+  warningTxt: {
+    fontSize: 16,
+    fontWeight: '600',
+    color:"#000",
+    textAlign: 'center',
   }
 });
 

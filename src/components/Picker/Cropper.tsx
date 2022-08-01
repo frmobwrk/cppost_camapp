@@ -1,4 +1,4 @@
-import { Platform } from "react-native";
+import { Alert, Platform } from "react-native";
 import { FFmpegKit, ReturnCode, FFmpegKitConfig } from 'ffmpeg-kit-react-native';
 import RNFS from 'react-native-fs';
 
@@ -177,6 +177,7 @@ export const HandleCrop = async (param: Props) => {
       selected.map(async (t, idx) => {
         const image = photos[t].node.image;
         const videoUri = VidoUri(image);
+        const video_filename = videoUri.replace(/^.*[\\\/]/, '')
         if (image.playableDuration) {
           try {
             let crop_levels = {
@@ -198,7 +199,13 @@ export const HandleCrop = async (param: Props) => {
 
             }
             let rndm_name = parseInt(Math.random()*10000000);
-            let newSource =  `${RNFS.ExternalDirectoryPath}/video.zscaled_new${rndm_name}.mp4`;
+            let newSource = "";
+            if (Platform.OS === "android") {
+              newSource =  `${RNFS.ExternalDirectoryPath}/video.zscaled_new${rndm_name}.mp4`;
+            }else{
+              newSource =  `${RNFS.DocumentDirectoryPath}/video.zscaled_new${rndm_name}.mp4`;
+            }
+
             let fullcommand = `-i ${videoUri}  -c:v libx264 -preset ultrafast  ${str_for_ffmpeg_command} -c:a copy  ${newSource}`;
             const session = await FFmpegKit.execute(fullcommand).then(
               (result) => {
@@ -208,6 +215,7 @@ export const HandleCrop = async (param: Props) => {
             const state = FFmpegKitConfig.sessionStateToString(await session.getState());
             const returnCode = await session.getReturnCode();
             const failStackTrace = await session.getFailStackTrace();
+
             console.log(`FFmpeg process exited with state ${state}`);
 
             if (ReturnCode.isSuccess(returnCode)) {
@@ -227,7 +235,16 @@ export const HandleCrop = async (param: Props) => {
               });
             } else {
               console.log( "zscale failed. Please check logs for the details.");
+              
+              Alert.alert(
+                `Oops!`,
+                `Can't compress selected file: ${video_filename}`,
+                [
+                    { text: "Ok", onPress: () => { } },
+                ],
+              );
             }
+
             const extension = image?.filename?.split(".").pop()?.toLocaleLowerCase();
             result.push({
               type: "video",
@@ -240,6 +257,13 @@ export const HandleCrop = async (param: Props) => {
             });
           } catch (error) {
             console.log(error);
+            Alert.alert(
+              `Oops!`,
+              `Can't compress selected file: ${video_filename}`,
+              [
+                  { text: "Ok", onPress: () => { } },
+              ],
+            );
           }
         } else {
           const crpIndex = cropperParams.findIndex((t) => t.filename == image.filename);

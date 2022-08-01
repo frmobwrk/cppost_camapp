@@ -19,7 +19,7 @@ import AlbumSelectorBottomSheet from "../bottomsheetModal/AlbumSelectorBottomShe
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { KeyboardAwareFlatList } from "react-native-keyboard-aware-scroll-view";
 import { CropperParams, PhotoSpecs, ProcessedImage } from "../../types";
-
+import FastImage from 'react-native-fast-image';
 
 interface Props {
   selectedGroupIndex?: number;
@@ -245,14 +245,14 @@ const ImagePicker: FunctionComponent<Props> = ({
             )}
           </View>
         )}
-        <Image
+        <FastImage
           style={{
             opacity: index === selectedIndex && !multiple ? 0.8 : 1,
             width: "100%",
             height: "100%",
           }}
           source={{
-            uri: item?.node?.image?.uri,
+            uri: item?.node?.image?.uri, 
           }}
         />
       </TouchableOpacity>
@@ -319,13 +319,22 @@ const ImagePicker: FunctionComponent<Props> = ({
 
   const renderSelectedImage = (asset: PhotoFileInfo) => {
     return (
-      <ImageCropper
-        imageUri={asset.uri}
-        cropAreaWidth={SCREEN_WIDTH}
-        cropAreaHeight={SCREEN_WIDTH}
-        containerColor="#fff"
-        areaColor="#fff"
-        setCropperParams={onCropperParams}
+      // <ImageCropper
+      //   imageUri={asset.uri}
+      //   cropAreaWidth={SCREEN_WIDTH}
+      //   cropAreaHeight={SCREEN_WIDTH}
+      //   containerColor="#fff"
+      //   areaColor="#fff"
+      //   setCropperParams={onCropperParams}
+      // />
+      <FastImage 
+        source={{
+          uri: asset.uri,
+        }}
+        style={{
+          width: "100%",
+          height: "100%",
+        }}
       />
     );
   };

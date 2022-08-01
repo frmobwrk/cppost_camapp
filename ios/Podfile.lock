@@ -10,6 +10,13 @@ PODS:
     - React-Core (= 0.69.1)
     - React-jsi (= 0.69.1)
     - ReactCommon/turbomodule/core (= 0.69.1)
+  - ffmpeg-kit-ios-https (4.5.1)
+  - ffmpeg-kit-react-native (4.5.2):
+    - ffmpeg-kit-react-native/https (= 4.5.2)
+    - React-Core
+  - ffmpeg-kit-react-native/https (4.5.2):
+    - ffmpeg-kit-ios-https (= 4.5.1)
+    - React-Core
   - Flipper (0.125.0):
     - Flipper-Folly (~> 2.6)
     - Flipper-RSocket (~> 1.4)
@@ -75,11 +82,11 @@ PODS:
   - glog (0.3.5)
   - libevent (2.1.12)
   - OpenSSL-Universal (1.1.1100)
-  - Permission-Camera (3.4.0):
+  - Permission-Camera (3.6.0):
     - RNPermissions
-  - Permission-Microphone (3.4.0):
+  - Permission-Microphone (3.6.0):
     - RNPermissions
-  - Permission-PhotoLibrary (3.4.0):
+  - Permission-PhotoLibrary (3.6.0):
     - RNPermissions
   - RCT-Folly (2021.06.28.00-v2):
     - boost
@@ -370,9 +377,11 @@ PODS:
     - React-perflogger (= 0.69.1)
   - RNCMaskedView (0.2.7):
     - React-Core
+  - RNFS (2.20.0):
+    - React-Core
   - RNGestureHandler (2.5.0):
     - React-Core
-  - RNPermissions (3.4.0):
+  - RNPermissions (3.6.0):
     - React-Core
   - RNReanimated (2.9.1):
     - DoubleConversion
@@ -411,6 +420,7 @@ DEPENDENCIES:
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
   - FBLazyVector (from `../node_modules/react-native/Libraries/FBLazyVector`)
   - FBReactNativeSpec (from `../node_modules/react-native/React/FBReactNativeSpec`)
+  - ffmpeg-kit-react-native (from `../node_modules/ffmpeg-kit-react-native`)
   - Flipper (= 0.125.0)
   - Flipper-Boost-iOSX (= 1.76.0.1.11)
   - Flipper-DoubleConversion (= 3.2.0.1)
@@ -470,6 +480,7 @@ DEPENDENCIES:
   - React-runtimeexecutor (from `../node_modules/react-native/ReactCommon/runtimeexecutor`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - "RNCMaskedView (from `../node_modules/@react-native-masked-view/masked-view`)"
+  - RNFS (from `../node_modules/react-native-fs`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNPermissions (from `../node_modules/react-native-permissions`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
@@ -478,6 +489,7 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - CocoaAsyncSocket
+    - ffmpeg-kit-ios-https
     - Flipper
     - Flipper-Boost-iOSX
     - Flipper-DoubleConversion
@@ -502,6 +514,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/Libraries/FBLazyVector"
   FBReactNativeSpec:
     :path: "../node_modules/react-native/React/FBReactNativeSpec"
+  ffmpeg-kit-react-native:
+    :path: "../node_modules/ffmpeg-kit-react-native"
   glog:
     :podspec: "../node_modules/react-native/third-party-podspecs/glog.podspec"
   Permission-Camera:
@@ -572,6 +586,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon"
   RNCMaskedView:
     :path: "../node_modules/@react-native-masked-view/masked-view"
+  RNFS:
+    :path: "../node_modules/react-native-fs"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
   RNPermissions:
@@ -587,6 +603,8 @@ SPEC CHECKSUMS:
   DoubleConversion: 5189b271737e1565bdce30deb4a08d647e3f5f54
   FBLazyVector: 068141206af867f72854753423d0117c4bf53419
   FBReactNativeSpec: 546a637adc797fa436dd51d1c63c580f820de31c
+  ffmpeg-kit-ios-https: cec24d405b511e4f274980d8a9c751d384f89558
+  ffmpeg-kit-react-native: bc3c900af9f761b6fe30906ee1bd98000c79f9c9
   Flipper: 26fc4b7382499f1281eb8cb921e5c3ad6de91fe0
   Flipper-Boost-iOSX: fd1e2b8cbef7e662a122412d7ac5f5bea715403c
   Flipper-DoubleConversion: 2dc99b02f658daf147069aad9dbd29d8feb06d30
@@ -600,9 +618,9 @@ SPEC CHECKSUMS:
   glog: 3d02b25ca00c2d456734d0bcff864cbc62f6ae1a
   libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913
   OpenSSL-Universal: ebc357f1e6bc71fa463ccb2fe676756aff50e88c
-  Permission-Camera: 40f43388fa8a648dc6ced73f145ef329ab3ff3fe
-  Permission-Microphone: 62492e9e3026112dfaecd6fff87a245c3d7367b8
-  Permission-PhotoLibrary: 71df5d922b3d9f1217bd2f992edceada0f439976
+  Permission-Camera: 0a0fb4341f50ab242f496fb2f73380e0ec454fe7
+  Permission-Microphone: 84bf2faad8d87969e8e275e9917a174424f948fc
+  Permission-PhotoLibrary: fda0fda455bebaa2602f3dfdf8296b28247c1484
   RCT-Folly: b9d9fe1fc70114b751c076104e52f3b1b5e5a95a
   RCTRequired: ae07282b2ec9c90d7eb98251603bc3f82403d239
   RCTTypeSafety: a04dc1339af2e1da759ccd093bf11c310dce1ef6
@@ -634,13 +652,14 @@ SPEC CHECKSUMS:
   React-runtimeexecutor: 27f468c5576eaf05ffb7a907528e44c75a3fcbae
   ReactCommon: e30ec17dfb1d4c4f3419eac254350d6abca6d5a2
   RNCMaskedView: cb9670ea9239998340eaab21df13fa12a1f9de15
+  RNFS: 4ac0f0ea233904cb798630b3c077808c06931688
   RNGestureHandler: bad495418bcbd3ab47017a38d93d290ebd406f50
-  RNPermissions: eac721f71748c4472d6e876038270b75397d6ee7
+  RNPermissions: de7b7c3fe1680d974ac7a85e3e97aa539c0e68ea
   RNReanimated: 2cf7451318bb9cc430abeec8d67693f9cf4e039c
   SocketRocket: fccef3f9c5cedea1353a9ef6ada904fde10d6608
   Yoga: 7ab6e3ee4ce47d7b789d1cb520163833e515f452
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: 37e1ae99f9d1e85d325c826689bed8d1f91c0b91
+PODFILE CHECKSUM: 5c16d0b5fc1da0e20034c24a9bbd6b9772d0591d
 
-COCOAPODS: 1.11.3
+COCOAPODS: 1.11.2
